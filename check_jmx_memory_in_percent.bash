@@ -23,8 +23,8 @@ fi
 
 VALUE="${SERVER}:${PORT}"
 
-totalB=$(bash /usr/lib/nagios/plugins/check_jmx.sh -U service:jmx:rmi:///jndi/rmi://${VALUE}/jmxrmi -O java.lang:type=Memory -A HeapMemoryUsage -K max | awk {'print $6'})
-usedB=$(bash /usr/lib/nagios/plugins/check_jmx.sh -U service:jmx:rmi:///jndi/rmi://${VALUE}/jmxrmi -O java.lang:type=Memory -A HeapMemoryUsage -K used | awk {'print $6'})
+totalB=$(bash /usr/local/nagios/libexec/check_jmx/nagios/plugin/check_jmx -U service:jmx:rmi:///jndi/rmi://${VALUE}/jmxrmi -O java.lang:type=Memory -A HeapMemoryUsage -K max | awk {'print $3'} | sed 's/.*\=//')
+usedB=$(bash /usr/local/nagios/libexec/check_jmx/nagios/plugin/check_jmx -U service:jmx:rmi:///jndi/rmi://${VALUE}/jmxrmi -O java.lang:type=Memory -A HeapMemoryUsage -K used | awk {'print $3'} | sed 's/.*\=//')
 
 multiplication=$((100*$usedB))
 result=$(($multiplication/$totalB))
